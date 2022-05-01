@@ -1,0 +1,22 @@
+Anything that does not begin with a trigger or is inside a namespace is a comment
+You just cannot use any triggering characters.
+
+;MyVar = Something
+A newline \(i.e. 0xA -> \n or \r\n\) is the end of a variable
+
+$MyNamespace (with an annotation) 
+{
+	Variable one, Variable two,
+	and so on
+}
+
+$AnotherNamespace				(you still need these brackets even if you don't want an annotation)
+{
+
+
+
+
+
+
+														} But these brackets can be placed 
+\$ This \(hopefully\) won't trigger the compiled into thinking anything bad...
