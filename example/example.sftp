@@ -19,4 +19,13 @@ $AnotherNamespace				(you still need these brackets even if you don't want an an
 
 
 														} But these brackets can be placed 
+
+$A Namespace With testing purposes - And yes this is a legal name
+	heck! it can even go across lines!!!!
+	(You just need the brackets)
+{
+	Oh yeah, this namespace, just for, TESTING, That's right,
+	Testing!!!!
+}
+
 \$ This \(hopefully\) won't trigger the compiled into thinking anything bad...
