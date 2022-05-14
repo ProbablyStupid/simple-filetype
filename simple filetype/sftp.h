@@ -73,7 +73,89 @@ public:
 	sftp_contents get_results();
 };
 
+class sftp_writer
+{
+private:
+
+	std::vector<sftp_namespace> m_Namespaces;
+	std::vector<sftp_variable> m_Variables;
+	bool m_Written = false;
+
+	std::string m_Filepath;
+
+public:
+
+	sftp_writer(std::string filepath);
+
+	inline std::string namespace_to_string(sftp_namespace& m)
+	{
+		std::stringstream string;
+		string << '$' << m.name << ' (' << m.annotation << ')\n{\n';
+		
+		for (uint64_t i = 0; i < (m.data.size() - 1); i++)
+			string << m.data[i] << ', ';
+
+		string << m.data[m.data.size() - 1];
+		string << '}';
+
+		return string.str();
+	}
+
+	inline std::string variable_to_string(sftp_variable& v)
+	{
+		std::stringstream string;
+		string << ';' << v.name << ' = ' << v.data << '\n';
+		return string.str();
+	}
+
+	void add_namespace(sftp_namespace& m);
+	void add_variable(sftp_variable& v);
+	
+	void add_namespaces(sftp_namespace* m, size_t size);
+	void add_variables(sftp_variable* v, size_t size);
+
+	void write();
+};
+
 #ifdef SFTP_STANDARD_IMPLEMENTATION
+
+sftp_writer::sftp_writer(std::string filepath)
+ : m_Filepath(filepath) {}
+
+void sftp_writer::add_namespace(sftp_namespace& m)
+{
+	m_Namespaces.push_back(m);
+}
+
+void sftp_writer::add_variable(sftp_variable& v)
+{
+	m_Variables.push_back(v);
+}
+
+void sftp_writer::add_namespaces(sftp_namespace* m, size_t size)
+{
+	m_Namespaces.insert(m_Namespaces.end(), m, m + size);
+}
+
+void sftp_writer::add_variables(sftp_variable* v, size_t size)
+{
+	m_Variables.insert(m_Variables.end(), v, v + size);
+}
+
+void sftp_writer::write()
+{
+	std::stringstream string;
+	for (sftp_variable i : m_Variables)
+		string << variable_to_string(i);
+	for (sftp_namespace i : m_Namespaces)
+		string << namespace_to_string(i);
+	
+	std::string final_string = string.str();
+
+	std::ofstream myFile(m_Filepath);
+	myFile.write(final_string.c_str(), final_string.size());
+	myFile.close();
+}
 
 std::vector<sftp_namespace> sftp_compiler::get_namespaces()
 {
@@ -220,10 +302,6 @@ void sftp_compiler::compile_file(std::string contents)
 		m_Namespaces.push_back(x);
 	}
 }
-
-
-
-
 
 sftp_file::sftp_file(std::string filepath)
 {
