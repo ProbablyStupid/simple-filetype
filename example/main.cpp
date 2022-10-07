@@ -10,7 +10,7 @@ int main()
 	sftp_file myFile("example.sftp");
 	myContents = myFile.get_results();
 
-	std::cout << myContents.namespaces[0].name << std::endl;
+	std::cout << myContents.v_names[0] << myContents.s_names[0] << myContents.namespaces["MyNamespace"].annotation << std::endl;
 
 	sftp_standard myStandard = read_standard("example_standard.txt");
 	

@@ -209,5 +209,57 @@ sftp_standard_review check_file_for_standard(sftp_contents* file, sftp_standard*
 {
 	// fields
 
+	bool has_all_fields = true;
+	std::vector<std::string> missing_fields;
+
+	for (auto i : standard->required_fields)
+	{
+		if (!file->variables.contains(i))
+		{
+			has_all_fields = false;
+			missing_fields.push_back(i);
+		}
+	}
+
 	// spaces
+
+	bool has_all_spaces = true;
+	bool namespace_errors = false;
+	std::vector<std::string> missing_spaces;
+	std::vector<std::string> missing_annotations;
+	std::vector<std::string> small_spaces;
+
+	for (auto i : standard->required_namespaces)
+	{
+		if (!file->namespaces.contains(i.name))
+		{
+			has_all_spaces = false;
+			namespace_errors = true;
+			missing_spaces.push_back(i.name);
+		}
+		if (file->namespaces[i.name].annotation.empty())
+		{
+			namespace_errors = true;
+			missing_annotations.push_back(i.name);
+		}
+		if (file->namespaces[i.name].data.size() != i.required_entries)
+		{
+			namespace_errors = true;
+			small_spaces.push_back(i.name);
+		}
+	}
+
+	// review
+
+	sftp_standard_review myReview
+	{
+		missing_fields,
+		missing_spaces,
+		missing_annotations,
+		small_spaces,
+		has_all_fields,
+		has_all_spaces,
+		namespace_errors
+	};
+	return myReview;
 }

@@ -25,17 +25,15 @@ typedef struct sftp_standard
 	std::vector<sftp_namespace_setting> required_namespaces;
 } sftp_standard;
 
-typedef struct sftp_namespace_review
-{
-	bool annotation_missing;
-	uint64_t entries_missing;
-} sftp_namespace_review;
-
 typedef struct sftp_standard_review
 {
 	std::vector<std::string> missing_fields;
 	std::vector<std::string> missing_namespaces;
-	std::vector<sftp_namespace_review> incorrect_namespaces;
+	std::vector<std::string> missing_annotations;
+	std::vector<std::string> small_spaces;
+	bool has_all_fields;
+	bool has_all_spaces;
+	bool space_errors;
 } sftp_standard_review;
 
 sftp_standard read_standard(std::string filepath);
