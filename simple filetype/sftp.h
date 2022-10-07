@@ -49,9 +49,11 @@ public:
 			if (sequence[i] != ' ')
 			{
 				last = i;
-				break;
+				goto return_point;
 			}
 		}
+	return_point:
+
 		return sequence.substr(first, (last - first + 1));
 	}
 
