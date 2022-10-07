@@ -15,7 +15,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="implementation.cpp">
+    <ClInclude Include="sftp-standard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="sftp_standard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

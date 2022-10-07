@@ -1,0 +1,15 @@
+|NAME|EXAMPLE STANDARD
+|VERSION|0.1
+|PURPOSE|
+Forward slash means a required field
+
+/name
+/birthday
+
+Backward slash means a required namespace
+The r in the brackets means that an annotation is required
+The number in the curly brackets indicates how many fields the namespace
+must contain
+
+\wishes(r){27}
+Always add an extra line
